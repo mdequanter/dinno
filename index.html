@@ -1,0 +1,545 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Digital Innovations</title>
+  <meta name="description" content="Digital Innovations by MD Management BV (Zellik, Belgium) – innovative solutions in robotics simulation and digital education.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%234f46e5'/%3E%3Cpath d='M18 16h14a16 16 0 0 1 0 32H18z' fill='none' stroke='%23fff' stroke-width='6'/%3E%3Ccircle cx='46' cy='18' r='5' fill='%2322d3ee'/%3E%3C/svg%3E">
+  <style>
+    :root {
+      --bg: #f7f8fc;
+      --surface: #ffffff;
+      --text: #0f172a;
+      --muted: #55607a;
+      --border: #e3e7f0;
+      --primary: #4f46e5;
+      --primary-2: #06b6d4;
+      --accent-soft: #eef0ff;
+      --hero-bg: #0b1020;
+      --hero-text: #f1f5ff;
+      --hero-muted: #a9b3cf;
+      --shadow: 0 10px 30px rgba(15, 23, 42, .08);
+      --radius: 18px;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0b1020;
+        --surface: #121a30;
+        --text: #e8ecf7;
+        --muted: #9aa5c2;
+        --border: #222c47;
+        --accent-soft: #1a2244;
+        --hero-bg: #070b17;
+        --shadow: 0 10px 30px rgba(0, 0, 0, .35);
+      }
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; }
+    img, svg { max-width: 100%; display: block; }
+    .container { width: min(1140px, 100% - 32px); margin-inline: auto; }
+
+    /* Header */
+    header {
+      position: fixed; inset: 0 0 auto 0; z-index: 50;
+      transition: background .25s, box-shadow .25s;
+    }
+    header.scrolled {
+      background: rgba(11, 16, 32, .85);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 1px 0 rgba(255,255,255,.06);
+    }
+    .nav { display: flex; align-items: center; justify-content: space-between; height: 72px; }
+    .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: #fff; font-weight: 800; letter-spacing: -.02em; font-size: 1.1rem; }
+    .brand-mark { width: 34px; height: 34px; }
+    .nav-links { display: flex; gap: 28px; list-style: none; margin: 0; padding: 0; }
+    .nav-links a { color: #cdd5ec; text-decoration: none; font-weight: 500; font-size: .95rem; }
+    .nav-links a:hover { color: #fff; }
+    .nav-cta { padding: 9px 18px; border-radius: 999px; background: #fff; color: var(--hero-bg) !important; font-weight: 600 !important; }
+    .menu-btn { display: none; background: none; border: 0; color: #fff; cursor: pointer; padding: 8px; }
+
+    /* Hero */
+    .hero {
+      position: relative; overflow: hidden;
+      background: var(--hero-bg); color: var(--hero-text);
+      padding: 150px 0 110px;
+    }
+    .hero::before {
+      content: ""; position: absolute; inset: 0;
+      background:
+        radial-gradient(600px 400px at 15% 20%, rgba(79,70,229,.45), transparent 60%),
+        radial-gradient(500px 380px at 85% 70%, rgba(6,182,212,.35), transparent 60%);
+    }
+    .hero::after {
+      content: ""; position: absolute; inset: 0;
+      background-image: linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: radial-gradient(ellipse at center, #000 30%, transparent 75%);
+    }
+    .hero-inner { position: relative; z-index: 1; display: grid; grid-template-columns: 1.1fr .9fr; gap: 48px; align-items: center; }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 14px; border-radius: 999px;
+      background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.14);
+      font-size: .85rem; color: #cfd8f5; font-weight: 500;
+    }
+    .eyebrow .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--primary-2); box-shadow: 0 0 10px var(--primary-2); }
+    .hero h1 { font-size: clamp(2.4rem, 5.5vw, 4rem); line-height: 1.05; letter-spacing: -.035em; margin: 22px 0 18px; font-weight: 800; }
+    .gradient-text { background: linear-gradient(90deg, #a5b4fc, #67e8f9); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .hero p.lead { font-size: 1.15rem; color: var(--hero-muted); max-width: 560px; margin: 0 0 32px; }
+    .btns { display: flex; flex-wrap: wrap; gap: 14px; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 24px; border-radius: 12px; font-weight: 600; text-decoration: none;
+      transition: transform .15s, box-shadow .15s, background .15s;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary { background: linear-gradient(135deg, var(--primary), #7c3aed); color: #fff; box-shadow: 0 8px 24px rgba(79,70,229,.45); }
+    .btn-ghost { background: rgba(255,255,255,.08); color: #fff; border: 1px solid rgba(255,255,255,.18); }
+    .hero-art { position: relative; }
+    .hero-art svg { width: 100%; height: auto; filter: drop-shadow(0 30px 60px rgba(0,0,0,.45)); }
+    .float { animation: float 6s ease-in-out infinite; }
+    @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+    /* Sections */
+    section { padding: 100px 0; }
+    .section-head { text-align: center; max-width: 680px; margin: 0 auto 56px; }
+    .kicker { color: var(--primary); font-weight: 700; text-transform: uppercase; letter-spacing: .12em; font-size: .8rem; }
+    .section-head h2 { font-size: clamp(1.9rem, 3.5vw, 2.6rem); letter-spacing: -.03em; line-height: 1.15; margin: 10px 0 14px; }
+    .section-head p { color: var(--muted); font-size: 1.08rem; margin: 0; }
+
+    /* Solutions */
+    .solution {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 28px;
+      padding: 48px; box-shadow: var(--shadow); margin-bottom: 32px;
+    }
+    .solution.reverse .solution-visual { order: 2; }
+    .solution-visual {
+      border-radius: 20px; aspect-ratio: 4 / 3; display: grid; place-items: center; overflow: hidden;
+    }
+    .solution-visual.robotics { background: linear-gradient(145deg, #1e1b4b, #0e7490); }
+    .solution-visual.education { background: linear-gradient(145deg, #fef3c7, #fde68a 40%, #fdba74); }
+    .solution-visual svg { width: 86%; height: auto; }
+    .tag { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; font-size: .85rem; color: var(--primary); background: var(--accent-soft); padding: 6px 12px; border-radius: 999px; }
+    .solution h3 { font-size: clamp(1.6rem, 3vw, 2.1rem); letter-spacing: -.025em; margin: 16px 0 12px; line-height: 1.2; }
+    .solution p { color: var(--muted); margin: 0 0 22px; }
+    .features { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
+    .features li { display: flex; gap: 12px; align-items: flex-start; }
+    .check { flex: none; width: 24px; height: 24px; border-radius: 8px; display: grid; place-items: center; background: var(--accent-soft); color: var(--primary); margin-top: 1px; }
+    .features strong { display: block; font-weight: 600; }
+    .features span { color: var(--muted); font-size: .95rem; }
+
+    /* Values */
+    .values { background: var(--surface); border-block: 1px solid var(--border); }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
+    .card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; transition: transform .2s, box-shadow .2s; }
+    .card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+    .icon { width: 48px; height: 48px; border-radius: 14px; display: grid; place-items: center; color: #fff; background: linear-gradient(135deg, var(--primary), var(--primary-2)); margin-bottom: 18px; }
+    .card h4 { margin: 0 0 8px; font-size: 1.1rem; }
+    .card p { margin: 0; color: var(--muted); font-size: .95rem; }
+
+    /* About */
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+    .about-grid h2 { font-size: clamp(1.9rem, 3.5vw, 2.6rem); letter-spacing: -.03em; line-height: 1.15; margin: 10px 0 18px; }
+    .about-grid p { color: var(--muted); font-size: 1.05rem; }
+    .stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+    .stat { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 26px; }
+    .stat b { display: block; font-size: 1.9rem; letter-spacing: -.03em; background: linear-gradient(90deg, var(--primary), var(--primary-2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .stat span { color: var(--muted); font-size: .95rem; }
+
+    /* Contact */
+    .contact-box {
+      position: relative; overflow: hidden;
+      background: var(--hero-bg); color: var(--hero-text);
+      border-radius: 32px; padding: 64px 48px; text-align: center;
+    }
+    .contact-box::before {
+      content: ""; position: absolute; inset: 0;
+      background: radial-gradient(500px 300px at 20% 0%, rgba(79,70,229,.5), transparent 60%),
+                  radial-gradient(500px 300px at 80% 100%, rgba(6,182,212,.4), transparent 60%);
+    }
+    .contact-box > * { position: relative; }
+    .contact-box h2 { font-size: clamp(1.9rem, 3.5vw, 2.6rem); letter-spacing: -.03em; margin: 0 0 14px; }
+    .contact-box p { color: var(--hero-muted); max-width: 560px; margin: 0 auto 30px; font-size: 1.08rem; }
+    .contact-box .btns { justify-content: center; }
+    .contact-meta { display: flex; justify-content: center; flex-wrap: wrap; gap: 28px; margin-top: 36px; color: #cdd5ec; font-size: .95rem; }
+    .contact-meta div { display: flex; align-items: center; gap: 8px; }
+
+    /* Footer */
+    footer { padding: 36px 0; color: var(--muted); font-size: .9rem; }
+    .footer-inner { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; border-top: 1px solid var(--border); padding-top: 28px; }
+    footer a { text-decoration: none; }
+    footer a:hover { color: var(--primary); }
+
+    /* Reveal */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.in { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; transition: none; }
+      .float { animation: none; }
+      html { scroll-behavior: auto; }
+    }
+
+    /* Responsive */
+    @media (max-width: 960px) {
+      .hero-inner, .solution, .about-grid { grid-template-columns: 1fr; }
+      .solution.reverse .solution-visual { order: 0; }
+      .grid-4 { grid-template-columns: repeat(2, 1fr); }
+      .hero { padding: 130px 0 80px; }
+      .hero-art { max-width: 460px; margin: 0 auto; }
+    }
+    @media (max-width: 720px) {
+      .menu-btn { display: block; }
+      .nav-links {
+        position: absolute; top: 72px; left: 0; right: 0;
+        flex-direction: column; gap: 0; padding: 8px 16px 20px;
+        background: rgba(11,16,32,.97); display: none;
+      }
+      .nav-links.open { display: flex; }
+      .nav-links a { display: block; padding: 12px 0; }
+      .nav-cta { text-align: center; margin-top: 8px; }
+      section { padding: 72px 0; }
+      .solution { padding: 24px; gap: 28px; border-radius: 22px; }
+      .grid-4 { grid-template-columns: 1fr; }
+      .contact-box { padding: 48px 22px; border-radius: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header id="top">
+    <nav class="container nav" aria-label="Main">
+      <a href="#top" class="brand">
+        <svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true">
+          <defs><linearGradient id="bm" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6366f1"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs>
+          <rect width="64" height="64" rx="16" fill="url(#bm)"/>
+          <path d="M18 16h12a16 16 0 0 1 0 32H18z" fill="none" stroke="#fff" stroke-width="6" stroke-linejoin="round"/>
+          <circle cx="47" cy="18" r="5" fill="#fff"/>
+        </svg>
+        Digital Innovations
+      </a>
+      <button class="menu-btn" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#solutions">Solutions</a></li>
+        <li><a href="#approach">Approach</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact" class="nav-cta">Contact us</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero">
+      <div class="container hero-inner">
+        <div>
+          <span class="eyebrow"><span class="dot"></span> Robotics &amp; Education technology</span>
+          <h1>Innovation that makes <span class="gradient-text">learning and building</span> simple.</h1>
+          <p class="lead">Digital Innovations creates smart software solutions that bring robotics within everyone's reach and make education more accessible, engaging and effective.</p>
+          <div class="btns">
+            <a href="#solutions" class="btn btn-primary">Discover our solutions
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+            <a href="#contact" class="btn btn-ghost">Get in touch</a>
+          </div>
+        </div>
+
+        <div class="hero-art float" aria-hidden="true">
+          <svg viewBox="0 0 480 400">
+            <defs>
+              <linearGradient id="win" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1b2342"/><stop offset="1" stop-color="#11172c"/></linearGradient>
+              <linearGradient id="arm" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#818cf8"/><stop offset="1" stop-color="#22d3ee"/></linearGradient>
+            </defs>
+            <rect x="10" y="20" width="460" height="330" rx="22" fill="url(#win)" stroke="#2c375e"/>
+            <circle cx="40" cy="46" r="6" fill="#f87171"/><circle cx="60" cy="46" r="6" fill="#fbbf24"/><circle cx="80" cy="46" r="6" fill="#34d399"/>
+            <!-- code panel -->
+            <rect x="30" y="72" width="170" height="256" rx="12" fill="#0d1326"/>
+            <rect x="46" y="92" width="90" height="10" rx="5" fill="#818cf8"/>
+            <rect x="58" y="114" width="120" height="10" rx="5" fill="#334063"/>
+            <rect x="58" y="136" width="80" height="10" rx="5" fill="#22d3ee"/>
+            <rect x="58" y="158" width="110" height="10" rx="5" fill="#334063"/>
+            <rect x="46" y="180" width="70" height="10" rx="5" fill="#a78bfa"/>
+            <rect x="58" y="202" width="100" height="10" rx="5" fill="#334063"/>
+            <rect x="58" y="224" width="60" height="10" rx="5" fill="#34d399"/>
+            <rect x="46" y="246" width="120" height="10" rx="5" fill="#334063"/>
+            <rect x="46" y="288" width="80" height="26" rx="8" fill="#4f46e5"/>
+            <path d="M78 294l12 7-12 7z" fill="#fff"/>
+            <!-- sim panel -->
+            <rect x="216" y="72" width="234" height="256" rx="12" fill="#0d1326"/>
+            <g stroke="#1f2a4a" stroke-width="1">
+              <path d="M226 300h214M246 270h174M266 244h134"/>
+              <path d="M260 300l40-56M333 300v-56M406 300l-40-56"/>
+            </g>
+            <ellipse cx="333" cy="290" rx="56" ry="12" fill="#1c2546"/>
+            <rect x="303" y="262" width="60" height="28" rx="8" fill="#2a3566"/>
+            <g>
+              <path d="M333 266 L300 190" stroke="url(#arm)" stroke-width="18" stroke-linecap="round"/>
+              <path d="M300 190 L372 140" stroke="url(#arm)" stroke-width="14" stroke-linecap="round"/>
+              <circle cx="333" cy="266" r="13" fill="#1e1b4b" stroke="#818cf8" stroke-width="4"/>
+              <circle cx="300" cy="190" r="11" fill="#1e1b4b" stroke="#a5b4fc" stroke-width="4"/>
+              <path d="M372 140 l18 -6 M372 140 l14 14" stroke="#67e8f9" stroke-width="6" stroke-linecap="round"/>
+            </g>
+            <rect x="388" y="250" width="30" height="30" rx="5" fill="#f59e0b"/>
+            <path d="M388 250l8-8h30l-8 8z" fill="#fbbf24"/><path d="M418 250l8-8v30l-8 8z" fill="#d97706"/>
+            <path d="M372 140 C 400 170, 405 210, 403 240" stroke="#67e8f9" stroke-width="2" stroke-dasharray="5 6" fill="none"/>
+            <!-- floating badge -->
+            <g transform="translate(300 330)">
+              <rect width="170" height="56" rx="14" fill="#fff"/>
+              <circle cx="28" cy="28" r="15" fill="#ecfdf5"/>
+              <path d="M21 28l5 5 10-10" stroke="#10b981" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              <rect x="52" y="17" width="90" height="9" rx="4.5" fill="#0f172a"/>
+              <rect x="52" y="32" width="64" height="8" rx="4" fill="#cbd5e1"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- Solutions -->
+    <section id="solutions">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="kicker">Our solutions</span>
+          <h2>Two domains, one mission: innovation with impact</h2>
+          <p>We combine technology, didactics and user-friendly design into solutions that work in the classroom, in training and in industry.</p>
+        </div>
+
+        <!-- Robotics -->
+        <article class="solution reveal">
+          <div class="solution-visual robotics" aria-hidden="true">
+            <svg viewBox="0 0 400 300">
+              <defs>
+                <linearGradient id="arm2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#c7d2fe"/><stop offset="1" stop-color="#67e8f9"/></linearGradient>
+              </defs>
+              <g stroke="rgba(255,255,255,.12)">
+                <path d="M20 250h360M60 215h280M100 185h200"/>
+                <path d="M80 250l60-65M200 250v-65M320 250l-60-65"/>
+              </g>
+              <ellipse cx="160" cy="240" rx="52" ry="11" fill="rgba(0,0,0,.25)"/>
+              <rect x="128" y="214" width="64" height="26" rx="8" fill="#312e81"/>
+              <path d="M160 218 L128 140" stroke="url(#arm2)" stroke-width="20" stroke-linecap="round"/>
+              <path d="M128 140 L212 96" stroke="url(#arm2)" stroke-width="15" stroke-linecap="round"/>
+              <circle cx="160" cy="218" r="13" fill="#1e1b4b" stroke="#a5b4fc" stroke-width="4"/>
+              <circle cx="128" cy="140" r="11" fill="#1e1b4b" stroke="#c7d2fe" stroke-width="4"/>
+              <path d="M212 96 l20 -4 M212 96 l12 16" stroke="#fff" stroke-width="6" stroke-linecap="round"/>
+              <path d="M226 104 C 270 120, 290 170, 292 200" stroke="#a5f3fc" stroke-width="2" stroke-dasharray="5 6" fill="none"/>
+              <rect x="276" y="204" width="34" height="34" rx="6" fill="#f59e0b"/>
+              <path d="M276 204l9-9h34l-9 9z" fill="#fbbf24"/><path d="M310 204l9-9v34l-9 9z" fill="#d97706"/>
+              <!-- code chip -->
+              <g transform="translate(250 40)">
+                <rect width="124" height="66" rx="12" fill="rgba(255,255,255,.12)" stroke="rgba(255,255,255,.25)"/>
+                <rect x="14" y="14" width="60" height="8" rx="4" fill="#a5b4fc"/>
+                <rect x="24" y="30" width="80" height="8" rx="4" fill="rgba(255,255,255,.45)"/>
+                <rect x="24" y="46" width="48" height="8" rx="4" fill="#67e8f9"/>
+              </g>
+            </svg>
+          </div>
+          <div>
+            <span class="tag">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="12" rx="3"/><path d="M12 8V4M9 14h.01M15 14h.01"/></svg>
+              Robotics
+            </span>
+            <h3>Robot simulation: program, test and learn – without hardware</h3>
+            <p>Our robotics solutions let students, teachers and engineers program industrial and educational robots in a realistic virtual environment, straight from the browser. Experiment safely, make mistakes freely and only move to real hardware when you're ready.</p>
+            <ul class="features">
+              <li><span class="check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg></span>
+                <div><strong>Realistic 3D simulation</strong><span>Robot arms, grippers, conveyors and workcells that behave like the real thing.</span></div></li>
+              <li><span class="check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg></span>
+                <div><strong>Learn to program step by step</strong><span>From visual blocks for beginners to real code for advanced users.</span></div></li>
+              <li><span class="check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg></span>
+                <div><strong>Ready for the classroom</strong><span>Assignments, challenges and progress tracking for teachers and trainers.</span></div></li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- Education -->
+        <article class="solution reverse reveal">
+          <div class="solution-visual education" aria-hidden="true">
+            <svg viewBox="0 0 400 300">
+              <rect x="50" y="34" width="260" height="210" rx="18" fill="#fff" stroke="#f1d9a6" stroke-width="2"/>
+              <g stroke="#fde7c2" stroke-width="1.5"><path d="M70 90h220M70 130h220M70 170h220M70 210h220"/></g>
+              <!-- handwritten -->
+              <path d="M78 80 c6 -18 18 -18 18 0 c0 10 -14 14 -18 20 h22" stroke="#4f46e5" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M110 76 l14 14 M124 76 l-14 14" stroke="#4f46e5" stroke-width="3.5" stroke-linecap="round"/>
+              <path d="M136 66 c3 -8 10 -8 10 -1 c0 5 -7 7 -10 10 h12" stroke="#4f46e5" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M160 84 h20 M170 74 v20" stroke="#4f46e5" stroke-width="3.5" stroke-linecap="round"/>
+              <path d="M196 70 c10 -4 14 4 6 10 c10 2 10 16 -6 14" stroke="#4f46e5" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M222 80 h20 M222 88 h20" stroke="#4f46e5" stroke-width="3.5" stroke-linecap="round"/>
+              <path d="M258 70 v24" stroke="#4f46e5" stroke-width="3.5" stroke-linecap="round"/>
+              <!-- recognized -->
+              <rect x="70" y="110" width="150" height="34" rx="9" fill="#eef2ff"/>
+              <text x="84" y="133" font-family="Georgia, serif" font-style="italic" font-size="18" fill="#1e1b4b">2x² + 3 = 1</text>
+              <circle cx="240" cy="127" r="13" fill="#d1fae5"/>
+              <path d="M234 127l4 4 8-8" stroke="#059669" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              <!-- fraction -->
+              <text x="84" y="180" font-family="Georgia, serif" font-style="italic" font-size="18" fill="#334155">x =</text>
+              <path d="M120 176 h40" stroke="#334155" stroke-width="2"/>
+              <text x="128" y="170" font-family="Georgia, serif" font-style="italic" font-size="15" fill="#334155">−b</text>
+              <text x="132" y="194" font-family="Georgia, serif" font-style="italic" font-size="15" fill="#334155">2a</text>
+              <rect x="70" y="214" width="90" height="10" rx="5" fill="#fde7c2"/>
+              <!-- pen -->
+              <g transform="rotate(35 300 150)">
+                <rect x="290" y="40" width="22" height="160" rx="11" fill="#1e1b4b"/>
+                <rect x="290" y="70" width="22" height="10" fill="#6366f1"/>
+                <path d="M290 196 L301 230 L312 196 Z" fill="#cbd5e1"/>
+                <circle cx="301" cy="228" r="3" fill="#4f46e5"/>
+              </g>
+              <!-- tablet hint -->
+              <g transform="translate(300 214)">
+                <rect width="78" height="48" rx="10" fill="#4f46e5"/>
+                <text x="39" y="31" text-anchor="middle" font-family="Inter, sans-serif" font-weight="700" font-size="16" fill="#fff">∑ √ π</text>
+              </g>
+            </svg>
+          </div>
+          <div>
+            <span class="tag">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8l10-5 10 5-10 5z"/><path d="M6 10v5c0 2 3 4 6 4s6-2 6-4v-5"/></svg>
+              Education
+            </span>
+            <h3>Digital learning tools that put the student first</h3>
+            <p>We develop educational tools that make learning more natural and inclusive. Our flagship approach lets students write mathematics digitally just as they would on paper – with a pen – while the software turns it into clear, structured and readable notation.</p>
+            <ul class="features">
+              <li><span class="check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg></span>
+                <div><strong>Natural handwriting input</strong><span>Write formulas, fractions and equations by hand on a tablet or laptop.</span></div></li>
+              <li><span class="check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg></span>
+                <div><strong>Inclusive by design</strong><span>Supports learners with dyslexia, dyspraxia or other learning difficulties.</span></div></li>
+              <li><span class="check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg></span>
+                <div><strong>Clean, readable results</strong><span>Neat digital work that's easy for teachers to read, review and give feedback on.</span></div></li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Approach -->
+    <section id="approach" class="values">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="kicker">Our approach</span>
+          <h2>How we innovate</h2>
+          <p>Every solution starts with a real problem and ends with a tool people actually enjoy using.</p>
+        </div>
+        <div class="grid-4">
+          <div class="card reveal">
+            <div class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></svg></div>
+            <h4>User-centred</h4>
+            <p>We design together with teachers, students and professionals – the people who use our tools every day.</p>
+          </div>
+          <div class="card reveal">
+            <div class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.3h6c0-1 .4-1.8 1-2.3A7 7 0 0 0 12 2z"/></svg></div>
+            <h4>Innovative</h4>
+            <p>We apply the latest technologies – from 3D simulation to handwriting recognition – in practical ways.</p>
+          </div>
+          <div class="card reveal">
+            <div class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg></div>
+            <h4>Accessible</h4>
+            <p>Browser-based and easy to roll out, so schools and companies can get started without heavy investments.</p>
+          </div>
+          <div class="card reveal">
+            <div class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/><path d="M9 12l2 2 4-4"/></svg></div>
+            <h4>Reliable</h4>
+            <p>Secure, privacy-conscious solutions built to last and supported by a dedicated Belgian team.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section id="about">
+      <div class="container about-grid">
+        <div class="reveal">
+          <span class="kicker">About us</span>
+          <h2>Digital Innovations is a brand of MD Management BV</h2>
+          <p>Based in Zellik, just outside Brussels, MD Management BV develops digital solutions at the intersection of technology and learning. Under the name <strong>Digital Innovations</strong>, we bring ideas from research and the classroom to life as practical, scalable products.</p>
+          <p>Whether you're a school looking to teach robotics, a training centre preparing the engineers of tomorrow, or an educator searching for more inclusive learning tools – we'd love to help.</p>
+        </div>
+        <div class="stats reveal">
+          <div class="stat"><b>Robotics</b><span>Virtual robot programming &amp; simulation</span></div>
+          <div class="stat"><b>Education</b><span>Inclusive digital learning tools</span></div>
+          <div class="stat"><b>Browser</b><span>No installation, works anywhere</span></div>
+          <div class="stat"><b>Belgium</b><span>Developed in Zellik</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact">
+      <div class="container">
+        <div class="contact-box reveal">
+          <h2>Let's innovate together</h2>
+          <p>Curious about what our robotics or education solutions can do for your school or organisation? Get in touch for a demo or a chat.</p>
+          <div class="btns">
+            <a href="mailto:info@dinno.be" class="btn btn-primary">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+              info@dinno.be
+            </a>
+          </div>
+          <div class="contact-meta">
+            <div>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/></svg>
+              MD Management BV
+            </div>
+            <div>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+              Zellik, Belgium
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <span>© <span id="year">2026</span> Digital Innovations · MD Management BV · Zellik, Belgium</span>
+      <span><a href="#solutions">Solutions</a> · <a href="#about">About</a> · <a href="#contact">Contact</a></span>
+    </div>
+  </footer>
+
+  <script>
+    // Header background on scroll
+    const header = document.querySelector('header');
+    const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 20);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    // Mobile menu
+    const menuBtn = document.querySelector('.menu-btn');
+    const navLinks = document.getElementById('nav-links');
+    menuBtn.addEventListener('click', () => {
+      const open = navLinks.classList.toggle('open');
+      menuBtn.setAttribute('aria-expanded', open);
+      if (open) header.classList.add('scrolled'); else onScroll();
+    });
+    navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      menuBtn.setAttribute('aria-expanded', 'false');
+    }));
+
+    // Reveal on scroll
+    const io = 'IntersectionObserver' in window ? new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: 0.12 }) : null;
+    document.querySelectorAll('.reveal').forEach(el => io ? io.observe(el) : el.classList.add('in'));
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
